@@ -1,4 +1,4 @@
-/*
+cordova.define("org.apache.cordova.core.device-orientation.compass", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -101,3 +101,4 @@ var argscheck = require('cordova/argscheck'),
     };
 
 module.exports = compass;
+});

@@ -1,4 +1,4 @@
-/*
+cordova.define("org.apache.cordova.core.media-capture.CaptureError", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -38,3 +38,4 @@ CaptureError.CAPTURE_NO_MEDIA_FILES = 3;
 CaptureError.CAPTURE_NOT_SUPPORTED = 20;
 
 module.exports = CaptureError;
+});
