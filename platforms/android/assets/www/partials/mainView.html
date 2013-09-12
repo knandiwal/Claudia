@@ -1,0 +1,150 @@
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="#/">Claudia</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active"><a href="#/">Home</a></li>
+                    <li><a href="#/about">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mainContainer">
+    <div class="row-fluid">
+        <div class="span3">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="li-draggable" ng-repeat="dragItem in dragItems" 
+                    data-drag="true" ng-model="dragItems" data-type="{{dragItem.type}}"
+                    jqyoui-draggable="{animate: true, 
+                                      placeholder: 'keep', 
+                                      onStart: 'startCallback', 
+                                      onStop: 'stopCallback',
+                                      onDrag: 'dragCallback'}"
+                    data-jqyoui-options="{snap: true, cursor: 'move', revert: 'invalid', helper: 'clone'}">
+                    <div class="btn btn-block btn-info" ng-click="widgetClickHandler($event)">
+                        <i class="{{dragItem.icon}}"></i> 
+                        {{dragItem.title}} 
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="span8 text-center">
+            <div id="dummyCell" data-drop="true" ng-model="droppedItems"
+                 jqyoui-droppable="{multiple: true,
+                                   onDrop: 'dropCallback',
+                                   onOver: 'overCallback',
+                                   onOut: 'outCallback'}"
+                 data-jqyoui-options="{greedy: true,
+                                      accept:'.li-draggable',
+                                      hoverClass: 'hoverClass'}">
+                
+                <div id="buttonContainer">
+                    <ul class="nav nav-pills nav-stacked">
+                    </ul>
+                </div>
+                
+                <div id="detailContainer">
+                    <div class="btn btn-danger" ng-click="moveListRight()">
+                        <i class="icon-chevron-left"></i>
+                        Back
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="footer">
+    <div class="container">
+        <div class="text-center" style="margin-top:5px;">
+            <div class="btn btn-success">Convert to Android App</div>
+        </div>    
+        <p class="muted credit">&copy; VBrain</p>
+    </div>
+</div>
+
+<div id="hiddenContent" style="display:none;">
+    <div class="closeDiv">
+        <span class="close" ng-click="removeWidget($event)">X</span>
+    </div>
+
+    <form class="addressForm">
+        <fieldset>
+            <legend>Address <span class="close" ng-click="removeWidget($event)">X</span> </legend>
+            <input type="text" placeholder="Address1">
+            <input type="text" placeholder="Address2">
+            <input class="form-inline input-small" type="text" placeholder="City">
+            <select class="form-inline input-small">
+                <option ng-repeat="s in usStates" id={{$index}} value="{{s.name}}">{{s.abbreviation}}</option>
+            </select>
+            <input class="input-small" type="text" placeholder="Zip">
+        </fieldset>
+        <hr />
+    </form>
+    
+    <div class="buttonDiv">
+        <button class="btn btn-primary" type="button">Action Button</button>
+        <span class="close" ng-click="removeWidget($event)">X</span>
+        <hr />
+    </div>
+    
+    <div class="emailDiv">
+        <input type="email" placeholder="Email">
+        <span class="close" ng-click="removeWidget($event)">X</span>
+        <hr />
+    </div>
+        
+</div>
+
+<style type="text/css">
+    #footer {
+        background-color:#FFFFF2;
+        height: 60px;
+        margin-top:25px;
+    }
+    .mainContainer {
+        padding-top: 60px;
+    }
+    #dummyCell {
+        position:relative;
+        width: 320px;
+        height: 480px;
+        border:3px solid #FFFFF2;
+        border-radius: 5px;
+        overflow: auto;
+        overflow-x: hidden;
+    }
+    .hoverClass {
+        border: 3px dashed #FF22FF !important;
+    }
+    .close {
+        padding: 0 5px;
+    }
+    .margin5 {
+        margin: 5px;
+    }
+    .li-draggable {
+        width: 200px;
+        margin-bottom: 5px;
+    }
+    #buttonContainer, #detailContainer {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        
+    }
+    #detailContainer {
+        display: none;
+        left: 1000px;
+    }
+</style>

@@ -1,0 +1,17 @@
+[
+   {
+      "title":"Button",
+      "icon":"icon-pencil",
+      "type":"button"
+   },
+   {
+      "title":"Email",
+      "icon":"icon-envelope",
+      "type":"email"
+   },
+   {
+      "title":"Address",
+      "icon":"icon-home",
+      "type":"address"
+   }
+]

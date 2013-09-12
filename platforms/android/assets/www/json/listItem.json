@@ -1,0 +1,17 @@
+[
+   {
+      "id":1,
+      "link":"In App Browser",
+      "path":"/inAppBrowser.html"
+   },
+   {
+      "id":2,
+      "link":"Contact",
+      "path":"/contact.html"
+   },
+   {
+      "id":3,
+      "link":"Geolocation",
+      "path":"/geoLocation.html"
+   }
+]
