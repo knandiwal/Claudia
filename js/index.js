@@ -16,7 +16,6 @@ var app = {
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         console.log('Im missing something');
-        var myCla = new App();
-        console.log(cla);
+
     }
 };
