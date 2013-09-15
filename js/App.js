@@ -4,7 +4,10 @@ var Routes = angular.module('MyCla', ['ui.bootstrap', 'ngDragDrop']) //other dep
     .config(function ($compileProvider){
         $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
     })
-    .config(['$routeProvider', function($routeProvider) {
+    .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
+        //$httpProvider.defaults.useXDomain = true;
+        //delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        
         $routeProvider.when('/', {templateUrl: 'partials/mainView.html', controller: 'homeController'});
 //        $routeProvider.when('/view3', {templateUrl: 'partials/accelerometerView.html'});
 //        $routeProvider.when('/view4', {templateUrl: 'partials/deviceInfoView.html'});

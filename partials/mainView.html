@@ -64,11 +64,21 @@
     </div>
 </div>
 
+<div class="container" style="padding:10px;">
+    <div class="btn btn-success" ng-click="populateAppsList()">Select Repository</div>
+    <ul class="inline" ng-repeat="app in apps" ng-show="populated">
+        <span class="appList badge" 
+              ng-click="selectApp($event)" 
+              data-id="{{app.id}}" data-version="{{app.version}}">{{app.id}}-{{app.title}}</span>
+    </ul>
+    
+    <div class="btn btn-success" ng-show="appSelected" ng-click="updateRepository()">Update with Latest</div>
+    
+    
+</div>
+
 <div id="footer">
     <div class="container">
-        <div class="text-center" style="margin-top:5px;">
-            <div class="btn btn-success">Convert to Android App</div>
-        </div>    
         <p class="muted credit">&copy; VBrain</p>
     </div>
 </div>
@@ -146,5 +156,9 @@
     #detailContainer {
         display: none;
         left: 1000px;
+    }
+    .appList {
+        margin: 5px 0;
+        cursor: pointer;
     }
 </style>

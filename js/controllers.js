@@ -7,7 +7,13 @@ function homeController($scope, $http) {
     $scope.dragItems = [];
     $scope.droppedItems = [];
     $scope.usStates = [];
+    $scope.apps = [];
     $scope.index = 0;
+    // this will be dynamic when we add login feature
+    var TOKEN_STR = '?auth_token=w6ycsLBLBZEc9F359Rz2';
+    var JSONP_STR = '&callback=JSON_CALLBACK';
+    var APP_ID;
+    var APP_VERSION;
     
     /*
     * Fetching data
@@ -172,5 +178,51 @@ function homeController($scope, $http) {
         
         });
     };
+    
+    /*
+    * PhoneGap Build APIs
+    */
+    $scope.populateAppsList = function() {
+        var appListURL = "https://build.phonegap.com/api/v1/apps" + TOKEN_STR + JSONP_STR;
+        
+        $http.jsonp(appListURL).success(function(data, status) {
+            $scope.apps = data.apps;
+            $scope.populated = true;
+            console.log($scope.apps);
+        }).error(function(data, status, headers, config) {
+            //errors here
+        });
+    };
+    
+    $scope.selectApp = function($event) {
+        if(!$event) return false;
+        $($event.target).addClass('label-info');
+        APP_ID = $($event.target).attr('data-id');
+        APP_VERSION = $($event.target).attr('data-version');
+        $scope.appSelected = true;
+    };
+    
+    $scope.updateRepository = function() {
+        var updateAppURL = "https://build.phonegap.com/api/v1/apps/" + APP_ID + TOKEN_STR + JSONP_STR;
+        console.log(updateAppURL);
+        var pData = {"version": constructNewVersion(), "pull":"true"};
+        
+        $http.jsonp(updateAppURL, pData).success(function(data, status) {
+            console.log(data);
+            console.log(status);
+        }).error(function(data, status, headers, config) {
+            //errors here
+            console.log(status);
+        });
+        
+        function constructNewVersion () {
+            var newVersion = APP_VERSION.charAt(APP_VERSION.length-1);
+            newVersion++;
+            APP_VERSION = APP_VERSION.substring(0, APP_VERSION.length - 1) + newVersion;
+            return ''+APP_VERSION+'';
+        }
+        
+    };
+    
 	
 } //end of function
