@@ -203,25 +203,104 @@ function homeController($scope, $http) {
     };
     
     $scope.updateRepository = function() {
-        var updateAppURL = "https://build.phonegap.com/api/v1/apps/" + APP_ID + TOKEN_STR + JSONP_STR;
-        console.log(updateAppURL);
-        var pData = {"version": constructNewVersion(), "pull":"true"};
+        // updating git repo
+        //var pathToMainView = "https://api.github.com/repos/varandpez/Claudia/partials/mainView.html";
         
-        $http.jsonp(updateAppURL, pData).success(function(data, status) {
+        //var updateAppURL = "https://build.phonegap.com/api/v1/apps/" + APP_ID + TOKEN_STR + "&callback=myCallBk";
+        //var updateAppURL = "https://build.phonegap.com/api/v1/apps/" + APP_ID + TOKEN_STR + JSONP_STR;
+        var updateAppURL = "https://build.phonegap.com/api/v1/apps/" + APP_ID + TOKEN_STR;
+        var pData = {"version": constructNewVersion()};
+        
+        
+        function createCORSRequest(method, url) {
+              var xhr = new XMLHttpRequest();
+              if ("withCredentials" in xhr) {
+            
+                // Check if the XMLHttpRequest object has a "withCredentials" property.
+                // "withCredentials" only exists on XMLHTTPRequest2 objects.
+                xhr.open(method, url, true);
+            
+              } else if (typeof XDomainRequest != "undefined") {
+            
+                // Otherwise, check if XDomainRequest.
+                // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+                xhr = new XDomainRequest();
+                xhr.open(method, url);
+            
+              } else {
+            
+                // Otherwise, CORS is not supported by the browser.
+                xhr = null;
+            
+              }
+              return xhr;
+            }
+            
+            var xhr = createCORSRequest('PUT', updateAppURL);
+            if (!xhr) {
+              throw new Error('CORS not supported');
+            }
+        
+        /*
+        $http.put(updateAppURL, pData).success(function(data, status) {
             console.log(data);
             console.log(status);
         }).error(function(data, status, headers, config) {
             //errors here
             console.log(status);
         });
+        */
+        
+        /*
+        $.ajax({
+            type: 'PUT',
+            url: updateAppURL,
+            data: pData,
+            dataType: 'jsonp',
+            success: function (data, textStatus, xhr) {
+                console.log(data);
+                console.log(xhr);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log(textStatus);
+            }    
+        });
+        */
         
         function constructNewVersion () {
             var newVersion = APP_VERSION.charAt(APP_VERSION.length-1);
             newVersion++;
             APP_VERSION = APP_VERSION.substring(0, APP_VERSION.length - 1) + newVersion;
             return ''+APP_VERSION+'';
+        };
+    };
+    
+    $scope.downloadAPKFile = function() {
+        var ANDROID_PLATFORM_STR = "android";
+        var downlaodAppURL = "https://build.phonegap.com/api/v1/apps/" + APP_ID + '/' + 
+            ANDROID_PLATFORM_STR + TOKEN_STR + JSONP_STR;
+        
+        popupDownloader(downlaodAppURL, 'Downloading...', 250, 140);
+        
+        function popupDownloader(url, title, w, h) {
+            var left = (screen.width/2)-(w/2);
+            var top = (screen.height/2)-(h/2);
+            return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
         }
         
+        /**
+        $http.jsonp(downlaodAppURL).success(function(data, status) {
+            console.log(status);
+        }).error(function(data, status, headers, config) {
+            //errors here
+            console.log(status);
+        });
+        **/
+    };
+    
+    window.myCallBk = function(data) {
+        console.log('here');
+        console.log(data);
     };
     
 	
