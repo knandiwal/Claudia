@@ -2,7 +2,7 @@
 <widget id="com.var.core" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Claudia</name>
     <description>
-        Soon to be a awesome mobile app.
+        Soon to be an awesome mobile app.
     </description>
     <author email="varandpez@yahoo.com" href="http://www.varandpez.com">
         Varand Pez
@@ -23,7 +23,7 @@
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="7" />
     <preference name="android-installLocation" value="auto" />
-    <icon src="icon.png" />
+    <icon src="jack-icon.png" />
     <icon gap:density="ldpi" gap:platform="android" src="res/icon/android/icon-36-ldpi.png" />
     <icon gap:density="mdpi" gap:platform="android" src="res/icon/android/icon-48-mdpi.png" />
     <icon gap:density="hdpi" gap:platform="android" src="res/icon/android/icon-72-hdpi.png" />

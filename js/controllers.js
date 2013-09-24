@@ -1,5 +1,5 @@
 
-function homeController($scope, $http) {
+function homeController($scope, $http, $resource) {
 	$scope.url = 'json/listItem.json';
 	$scope.widgetUrl = 'json/widgets.json';
 	$scope.usStatesUrl = 'json/states.json';
@@ -19,15 +19,15 @@ function homeController($scope, $http) {
     * Fetching data
     */
 	$scope.fetch = function() {
-		$http.get($scope.url).success(function(data, status){
+		$http.get($scope.url).success(function(data, status) {
             $scope.items = data;
         });	
         
-        $http.get($scope.widgetUrl).success(function(data, status){
+        $http.get($scope.widgetUrl).success(function(data, status) {
             $scope.dragItems = data;
         });
         
-        $http.get($scope.usStatesUrl).success(function(data, status){
+        $http.get($scope.usStatesUrl).success(function(data, status) {
             $scope.usStates = data;
         });
 	};
@@ -184,7 +184,8 @@ function homeController($scope, $http) {
     */
     $scope.populateAppsList = function() {
         var appListURL = "https://build.phonegap.com/api/v1/apps" + TOKEN_STR + JSONP_STR;
-        
+        // change it $http.get and remove 'JSONP_STR' and we have CORS issue
+        // 
         $http.jsonp(appListURL).success(function(data, status) {
             $scope.apps = data.apps;
             $scope.populated = true;
@@ -203,45 +204,29 @@ function homeController($scope, $http) {
     };
     
     $scope.updateRepository = function() {
-        // updating git repo
-        //var pathToMainView = "https://api.github.com/repos/varandpez/Claudia/partials/mainView.html";
-        
         //var updateAppURL = "https://build.phonegap.com/api/v1/apps/" + APP_ID + TOKEN_STR + "&callback=myCallBk";
         //var updateAppURL = "https://build.phonegap.com/api/v1/apps/" + APP_ID + TOKEN_STR + JSONP_STR;
         var updateAppURL = "https://build.phonegap.com/api/v1/apps/" + APP_ID + TOKEN_STR;
         var pData = {"version": constructNewVersion()};
         
-        
-        function createCORSRequest(method, url) {
-              var xhr = new XMLHttpRequest();
-              if ("withCredentials" in xhr) {
-            
-                // Check if the XMLHttpRequest object has a "withCredentials" property.
-                // "withCredentials" only exists on XMLHTTPRequest2 objects.
-                xhr.open(method, url, true);
-            
-              } else if (typeof XDomainRequest != "undefined") {
-            
-                // Otherwise, check if XDomainRequest.
-                // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
-                xhr = new XDomainRequest();
-                xhr.open(method, url);
-            
-              } else {
-            
-                // Otherwise, CORS is not supported by the browser.
-                xhr = null;
-            
-              }
-              return xhr;
-            }
-            
-            var xhr = createCORSRequest('PUT', updateAppURL);
-            if (!xhr) {
-              throw new Error('CORS not supported');
-            }
-        
         /*
+        var resource = $resource(
+            "https://build.phonegap.com/api/v1/apps/"+ APP_ID + TOKEN_STR,
+            {
+                
+            },
+            {
+               
+                update: {
+                    method: "PUT"
+                }
+            }
+        );
+        resource.update();
+        */
+        // updating git repo
+        //var pathToMainView = "https://api.github.com/repos/varandpez/Claudia/partials/mainView.html";
+        
         $http.put(updateAppURL, pData).success(function(data, status) {
             console.log(data);
             console.log(status);
@@ -249,7 +234,6 @@ function homeController($scope, $http) {
             //errors here
             console.log(status);
         });
-        */
         
         /*
         $.ajax({
@@ -274,6 +258,76 @@ function homeController($scope, $http) {
             return ''+APP_VERSION+'';
         };
     };
+    
+    $scope.updateZipFile = function() {
+        /*geting dir path
+        window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+        if(!window.requestFileSystem || window.requestFileSystem == false) return;
+        
+        var fs = null;
+        initFS();
+        
+        function errorHandler(e) {
+            var msg = '';
+            switch (e.code) {
+            case FileError.QUOTA_EXCEEDED_ERR:
+                msg = 'QUOTA_EXCEEDED_ERR';
+                break;
+            case FileError.NOT_FOUND_ERR:
+                msg = 'NOT_FOUND_ERR';
+                break;
+            case FileError.SECURITY_ERR:
+                msg = 'SECURITY_ERR';
+                break;
+            case FileError.INVALID_MODIFICATION_ERR:
+                msg = 'INVALID_MODIFICATION_ERR';
+                break;
+            case FileError.INVALID_STATE_ERR:
+                msg = 'INVALID_STATE_ERR';
+                break;
+            default:
+                msg = 'Unknown Error';
+                break;
+            };
+            console.log(msg)
+        }
+        
+        function initFS() {
+            window.requestFileSystem(window.TEMPORARY, 1024*1024, function(filesystem) {
+                fs = filesystem;
+                console.log(fs);
+                
+                fs.root.getDirectory('C:/Users/Public/Pictures', {}, function(dirEntry){
+                  var dirReader = dirEntry.createReader();
+                  dirReader.readEntries(function(entries) {
+                    for(var i = 0; i < entries.length; i++) {
+                      var entry = entries[i];
+                      if (entry.isDirectory){
+                        console.log('Directory: ' + entry.fullPath);
+                      }
+                      else if (entry.isFile){
+                        console.log('File: ' + entry.fullPath);
+                      }
+                    }
+                
+                  }, errorHandler);
+                }, errorHandler);
+            }, errorHandler);
+        }
+        */
+
+        var content = $.ajax('/index.html').done(function() {
+            zip = new JSZip();
+            zip.file('test.txt', $('#dummyCell').html());
+            zip.folder('www');
+            
+            var base64zip = zip.generate();
+            location.href="data:application/zip;base64,"+base64zip;
+        });
+        
+        
+        
+    }; 
     
     $scope.downloadAPKFile = function() {
         var ANDROID_PLATFORM_STR = "android";

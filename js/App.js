@@ -1,10 +1,10 @@
 'use strict';
 
-var Routes = angular.module('MyCla', ['ui.bootstrap', 'ngDragDrop']) //other dependencies
+var Routes = angular.module('MyCla', ['ui.bootstrap', 'ngDragDrop', 'ngResource']) //other dependencies
     .config(function ($compileProvider){
         $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
     })
-    .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
+    .config(['$routeProvider', '$httpProvider', '$resourceProvider', function ($routeProvider, $httpProvider, $resourceProvider) {
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         
