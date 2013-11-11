@@ -1,0 +1,35 @@
+<div class="container">
+	<h3>This is EULA</h3>
+	
+    <div class="eulaWraper">
+        This is content of eula, ...
+    </div>
+	
+    <div class="inline">
+        <span>
+            I Agree with Terms and Conditions
+            <input type="checkbox" id="eulaCheckbox" ng-model='accepted'>
+        </span>
+        <div>
+            <span class="btn btn-info" ng-click="eulaYES()"> Yes </span>
+            <span class="btn btn-alert" ng-click="eulaNO()"> No </span>
+        </div>
+    </div>
+    
+
+</div>
+
+<style type="text/css">
+.eulaWraper {
+    min-height: 50px;
+    max-height: 350px;
+    border: 1px solid #A0A0A0;
+    overflow: auto;
+    max-width: 750px;
+    padding: 10px;
+}
+p {
+    border: 1px solid #ccc;    
+}    
+</style>
+

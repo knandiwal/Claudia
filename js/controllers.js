@@ -1,4 +1,21 @@
 
+
+function eulaController($scope, $location) {
+    $scope.eulaYES = function() {
+        console.log('yes');
+        if($scope.accepted) {
+            window.eulaAccepted = true;
+        }
+        
+        
+    };
+    
+    $scope.eulaNO = function() {
+        console.log('no');
+    };
+}
+
+
 function homeController($scope, $http, $resource) {
 	$scope.url = 'json/listItem.json';
 	$scope.widgetUrl = 'json/widgets.json';
